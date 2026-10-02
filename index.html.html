@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MISIÓN CONTROL EMOCIONAL — Taller interactivo</title>
+<meta name="description" content="Taller digital interactivo de regulación emocional para niños de 9 a 11 años: reconoce emociones, usa el semáforo emocional y arma tu kit de herramientas.">
+<style>
+/* ===== VARIABLES Y BASE ===== */
+:root{--mint:#0F7A5F;--mint2:#D8F3EA;--mint3:#EEF9F5;--bg:#F5F8F7;--ink:#26343A;--mut:#566870;--yel:#FFE9A8;--red:#D64545;--amb:#F2B93B;--grn:#2E9E6B;--line:#D9E5E0}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.55 "Nunito","Trebuchet MS","Segoe UI",system-ui,sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:0 18px}
+h1,h2,h3,h4{line-height:1.2;margin:0 0 .5em}
+h2{font-size:1.7rem}h3{font-size:1.25rem}
+p{margin:0 0 .8em}
+:focus-visible{outline:4px solid #1C5FD6;outline-offset:3px}
+.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:#fff;padding:8px;z-index:20}
+/* ===== CABECERA Y PROGRESO ===== */
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.hrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;flex-wrap:wrap}
+.brand b{display:block;font-size:1.05rem}.brand small{color:var(--mut);font-size:.82rem}
+.adults{background:none;border:2px solid var(--line);border-radius:99px;padding:6px 14px;font:inherit;font-size:.85rem;color:var(--mut);cursor:pointer}
+.adults:hover{border-color:var(--mint);color:var(--mint)}
+.prog{padding-bottom:10px}
+.pl{display:flex;justify-content:space-between;font-size:.85rem;font-weight:800;color:var(--mut);margin-bottom:4px}
+.bar{height:14px;background:#E6EEEB;border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#5CCBA9,var(--mint));border-radius:99px;transition:width .6s}
+body.cover .brand,body.cover .prog{display:none}
+body.cover .hrow{justify-content:flex-end}
+/* ===== COMPONENTES ===== */
+main{padding:26px 0 60px;outline:none}
+main h2:focus{outline:none}
+.lead{color:var(--mut);font-size:1.1rem}
+.grid{display:grid;gap:14px;margin:16px 0}
+.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}.g2{grid-template-columns:repeat(2,1fr)}
+.card{font:inherit;color:inherit;text-align:center;background:#fff;border:3px solid var(--line);border-radius:20px;padding:16px 12px;cursor:pointer;min-height:64px;transition:transform .2s,border-color .2s,background .2s}
+.card:hover{transform:translateY(-3px);border-color:#8AD6BD}
+.card.on{border-color:var(--mint);background:var(--mint2);transform:scale(1.03);box-shadow:0 6px 16px rgba(15,122,95,.18)}
+.card.on::after{content:" ✔";font-weight:800;color:var(--mint)}
+.card .big{display:block;font-size:2.4rem;line-height:1.2}
+.card.left{text-align:left}
+.card:disabled{cursor:default;transform:none}
+.panel{background:#fff;border:2px solid var(--line);border-radius:22px;padding:22px;margin:18px 0}
+.ok{background:var(--yel);border-radius:16px;padding:14px 18px;margin-top:14px;font-weight:600}
+.hint{color:var(--mut);font-size:.95rem}
+.btn{font:inherit;font-weight:800;background:var(--mint);color:#fff;border:0;border-radius:99px;padding:14px 28px;min-height:52px;cursor:pointer;transition:transform .15s,background .2s}
+.btn:hover:not(:disabled){transform:translateY(-2px);background:#0B6650}
+.btn:disabled{background:#B9C7C1;cursor:not-allowed}
+.btn.big{font-size:1.3rem;padding:18px 36px}
+.btn.alt{background:#fff;color:var(--mint);border:3px solid var(--mint)}
+.btn.alt:hover:not(:disabled){background:var(--mint3)}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:26px;flex-wrap:wrap}
+.nav .hint{flex:1;text-align:center;margin:0}
+.pop{animation:pop .45s ease}
+@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
+/* ===== PORTADA ===== */
+.hero{text-align:center;padding:30px 0}
+.hero h1{font-size:clamp(2rem,6vw,3.2rem);color:var(--mint)}
+.orb{width:120px;height:120px;margin:0 auto 14px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,var(--mint2) 55%,#8AD6BD);display:grid;place-items:center;font-size:3.6rem;animation:float 3.5s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-10px)}}
+.sub{font-size:1.35rem;font-weight:800;max-width:600px;margin:0 auto .8em}
+.hero p{max-width:600px;margin-left:auto;margin-right:auto}
+.chips{list-style:none;padding:0;margin:26px 0 0;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.chips li{background:#fff;border:2px solid var(--line);border-radius:99px;padding:8px 16px;font-weight:700;font-size:.95rem}
+/* ===== FLUJO MISION 2 ===== */
+.flow{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;margin:14px 0}
+.flow span{background:var(--mint2);border-radius:14px;padding:8px 14px;font-weight:800}
+.flow em{font-style:normal;color:var(--mut)}
+.chipbtn{display:flex;flex-wrap:wrap;gap:10px}
+.chipbtn .card{padding:10px 16px;min-height:48px}
+/* ===== SEMAFORO ===== */
+.tl{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.light{background:#33424A;border-radius:34px;padding:14px;display:flex;flex-direction:column;gap:10px;flex:none}
+.light i{width:62px;height:62px;border-radius:50%;background:#4A5A62;display:grid;place-items:center;font-style:normal;font-size:.7rem;font-weight:800;color:#8A9AA2}
+.light i.r.on{background:var(--red);color:#fff;box-shadow:0 0 24px var(--red)}
+.light i.y.on{background:var(--amb);color:#3A2C00;box-shadow:0 0 24px var(--amb)}
+.light i.g.on{background:var(--grn);color:#fff;box-shadow:0 0 24px var(--grn)}
+.tl>div:last-child{flex:1;min-width:240px}
+.stop{list-style:none;padding:0;margin:12px 0;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stop li{background:#FDECEC;border:2px solid var(--red);border-radius:14px;padding:10px;font-weight:800;color:#8E1F1F}
+.bwrap{position:relative;width:240px;height:240px;margin:10px auto;display:grid;place-items:center}
+.bcircle{position:absolute;inset:40px;border-radius:50%;background:radial-gradient(circle,#FFF4CC,var(--amb));transition:transform 4s ease-in-out}
+.bt{position:relative;text-align:center;font-weight:800;color:#3A2C00}
+.bt span{display:block;font-size:2.4rem}
+.scale{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.scale .card{width:52px;padding:8px 0;min-height:52px;font-weight:800;border-radius:14px}
+.scale .card.on::after{content:""}
+.center{text-align:center}
+/* ===== SITUACIONES / KIT ===== */
+.opt{display:block;width:100%;text-align:left;margin-bottom:10px;border-radius:16px}
+.opt.good{border-color:var(--grn);background:#E6F6EE}
+.opt.good::before{content:"✔ Estrategia: ";font-weight:800;color:var(--grn)}
+.kitcard{background:#fff;border:4px dashed var(--mint);border-radius:24px;padding:22px;margin:16px 0}
+.kitcard ol{padding-left:1.3em}.kitcard li{margin-bottom:.4em}
+.kitcard .tools{background:var(--yel);border-radius:14px;padding:10px 16px;font-weight:800;margin-bottom:8px}
+.big2{font-size:3.5rem;text-align:center}
+/* ===== FINAL ===== */
+.conf{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:3}
+.conf span{position:absolute;top:-40px;font-size:1.8rem;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
+.steps{display:inline-flex;flex-direction:column;align-items:center;gap:4px;font-weight:800;font-size:1.2rem;margin:10px 0}
+/* ===== DIALOGO ADULTOS ===== */
+dialog{max-width:680px;width:92%;border:0;border-radius:24px;padding:24px;max-height:86vh;overflow:auto;color:var(--ink);font-size:17px}
+dialog::backdrop{background:rgba(30,50,45,.5)}
+dialog h3{margin-top:1em}
+@media (max-width:700px){
+ body{font-size:17px}
+ .g3,.g2{grid-template-columns:1fr}.g4{grid-template-columns:1fr 1fr}
+ .stop{grid-template-columns:1fr}.tl{justify-content:center}
+ .btn.big{width:100%}.nav .btn{flex:1}.nav .hint{order:3;flex-basis:100%}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body class="cover">
+<a class="skip" href="#app">Saltar al contenido</a>
+
+<!-- ===== CABECERA ===== -->
+<header>
+ <div class="wrap">
+  <div class="hrow">
+   <div class="brand"><b>🧠 MISIÓN CONTROL EMOCIONAL</b><small>Aprende a entender lo que sientes y elegir qué hacer con ello.</small></div>
+   <button class="adults" data-a="adults" aria-haspopup="dialog">👩‍⚕️ Para adultos</button>
+  </div>
+  <div class="prog">
+   <div class="pl"><span>PROGRESO</span><span id="plabel"></span></div>
+   <div class="bar" role="progressbar" aria-label="Progreso de la misión" aria-valuemin="0" aria-valuemax="100" id="pbar"><i id="pfill"></i></div>
+  </div>
+ </div>
+</header>
+
+<main class="wrap" id="app" tabindex="-1"></main>
+<dialog id="dlg" aria-label="Información"></dialog>
+
+<script>
+/* ===== DATOS ===== */
+var KEY='mce_v1';
+var EMO=[['😡','Enojo'],['😨','Miedo'],['😢','Tristeza'],['😃','Alegría'],['😳','Vergüenza'],['😒','Frustración'],['😌','Calma'],['😮','Sorpresa']];
+var BODY=[['❤️','Corazón acelerado'],['🔥','Cara caliente'],['🦋','Cosquillas en el estómago'],['💪','Músculos tensos'],['😮','Respiración rápida'],['🥱','Sensación de cansancio']];
+var FEEL=['😢 Tristeza','😠 Enojo','😌 Tranquilidad','🤔 Curiosidad'];
+var GREEN=[['🗣️','Hablar','Puedo decir con calma lo que siento: «Me molestó que...». Hablar ayuda a que el otro me entienda.'],['🚶','Tomar distancia','Alejarme un momento no es huir: es darme tiempo para calmarme y volver cuando esté listo.'],['🤝','Pedir ayuda','Contarle a un adulto de confianza es una estrategia valiente y saludable.'],['🧠','Buscar otra solución','Me pregunto: ¿qué otra cosa puedo hacer? Pensar varias opciones me da más control.']];
+var SIT=[
+ {q:'Estás jugando y otro niño hace trampa.',o:['Gritarle inmediatamente.','Golpearlo.','Parar y respirar.','Irme sin decir nada.'],g:2,ok:'Buena estrategia. Primero bajas la intensidad de la emoción para poder decidir qué hacer.'},
+ {q:'Estudiaste para un examen y obtuviste una nota baja.',o:['Romper la hoja del examen.','Decirme «soy un fracaso» y rendirme.','Respirar, aceptar que me siento mal y pensar qué puedo hacer distinto o a quién pedir ayuda.','Culparme o culpar a otra persona sin pensar más.'],g:2,ok:'Buena estrategia. Puedes sentir tristeza o frustración y aun así elegir qué hacer después.'},
+ {q:'Quieres jugar, pero tus padres te dicen que primero tienes que hacer una tarea.',o:['Gritar o discutir.','Respirar y proponer: «Hago la tarea primero y después juego».','Ignorarlos y jugar igual.','Encerrarme sin decir nada.'],g:1,ok:'Buena estrategia. Te calmas, hablas y buscas una solución que funcione para todos.'}];
+var BAD='No pasa nada. Esa puede ser una reacción impulsiva. Probemos otra posibilidad.';
+var STR={'Creatividad':['Dibujar o escribir lo que siento.','Inventar una solución distinta.'],'Valentía':['Decir con calma lo que me pasa.','Pedir ayuda aunque me dé pena.'],'Curiosidad':['Preguntarme qué me está diciendo esta emoción.','Probar una estrategia nueva.'],'Persistencia':['Repetir la respiración hasta sentirme mejor.','Intentarlo otra vez aunque no salga a la primera.'],'Amabilidad':['Tratarme con cariño cuando me equivoco.','Hablar con respeto aunque esté molesto.'],'Humor':['Reírme un poco de la situación cuando ya estoy tranquilo.','Imaginar algo gracioso para soltar la tensión.'],'Responsabilidad':['Pensar cómo mi reacción afecta a otros.','Reparar las cosas si me equivoqué.'],'Capacidad para escuchar':['Escuchar las señales de mi cuerpo.','Escuchar la versión de la otra persona.'],'Trabajo en equipo':['Buscar a alguien que me ayude.','Resolver el problema entre todos.']};
+var TOOLS=[['🌬️','Respirar','Inspiro 4, pauso 4, suelto 4.'],['🚦','Semáforo emocional','Rojo: paro. Amarillo: me regulo. Verde: elijo.'],['🧠','Cambiar la pregunta','Me pregunto: ¿hay otra forma de ver esto?'],['🗣️','Hablar','Cuento con calma lo que siento.'],['🚶','Tomar distancia','Me alejo un momento para calmarme.'],['🤝','Pedir ayuda','Busco a un adulto de confianza.']];
+var HINT=['','Elige una emoción y marca al menos una señal del cuerpo.','Elige una emoción para cada pensamiento.','Recorre el semáforo y elige una opción verde.','Termina las 3 situaciones.','Elige 3 fortalezas.','Elige 3 herramientas.'];
+
+/* ===== ESTADO Y ALMACENAMIENTO ===== */
+function fresh(){return{step:0,emo:null,body:{},t:{a:null,b:null},m3:{stage:0,cycles:0,level:null,choice:null},sit:{i:0,ans:[]},str:[],ideas:{},kit:[]};}
+function load(){try{var s=JSON.parse(localStorage.getItem(KEY));if(s&&typeof s.step==='number'){return Object.assign(fresh(),s);}}catch(e){}return null;}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+var S=load()||fresh();
+var br=null;
+function $(id){return document.getElementById(id);}
+function ok(){switch(S.step){
+ case 1:return Object.keys(S.body).some(function(k){return S.body[k].length>0;});
+ case 2:return !!(S.t.a&&S.t.b);
+ case 3:return S.m3.choice!==null;
+ case 4:return S.sit.i>=3;
+ case 5:return S.str.length===3;
+ case 6:return S.kit.length===3;}
+ return true;}
+function ico(n){return (EMO.filter(function(e){return e[1]===n;})[0]||['',''])[0];}
+function pr(on,a,v,txt,cls){return '<button class="card '+(cls||'')+(on?' on':'')+'" data-a="'+a+'" data-v="'+v+'" aria-pressed="'+(!!on)+'">'+txt+'</button>';}
+
+/* ===== VISTAS ===== */
+function vCover(){return '<section class="hero pop"><div class="orb" aria-hidden="true">🧠</div><h1 id="h" tabindex="-1">🧠 MISIÓN CONTROL EMOCIONAL</h1><p class="sub">Tu cerebro siente. Tu cuerpo reacciona. Tú puedes aprender a elegir.</p><p>En esta misión aprenderás a reconocer tus emociones, entender qué te están diciendo y descubrir qué puedes hacer cuando aparecen emociones fuertes.</p><button class="btn big" data-a="start">🚀 COMENZAR MISIÓN</button><ul class="chips"><li>⏱️ 30 minutos</li><li>🎮 5 misiones</li><li>🧠 Herramientas para la vida diaria</li></ul></section>';}
+
+function v1(){var e=S.emo,sel=(e&&S.body[e])||[];
+ var h='<h2 id="h" tabindex="-1">🎮 Misión 1 — ¿Qué emoción soy?</h2><p class="lead">Toca una emoción para explorarla. Todas las emociones cumplen una función; no hay emociones «malas».</p><div class="grid g4">';
+ EMO.forEach(function(x){h+=pr(e===x[1],'emo',x[1],'<span class="big" aria-hidden="true">'+x[0]+'</span>'+x[1]+((S.body[x[1]]||[]).length&&e!==x[1]?' ✔':''),'emo');});
+ h+='</div>';
+ if(e){h+='<div class="panel pop"><h3>'+ico(e)+' '+e+': ¿Cómo crees que se siente esta emoción en el cuerpo?</h3><p class="hint">Puedes elegir varias señales. No hay respuestas incorrectas.</p><div class="grid g3">';
+  BODY.forEach(function(b){h+=pr(sel.indexOf(b[1])>=0,'body',b[1],'<span class="big" aria-hidden="true">'+b[0]+'</span>'+b[1]);});
+  h+='</div>';
+  if(sel.length){h+='<div class="ok pop">⭐ ¡Detective emocional! Las emociones también se sienten en el cuerpo. Aprender a reconocer esas señales puede ayudarte a detectar una emoción antes de reaccionar. Puedes explorar otra emoción o continuar.</div>';}
+  h+='</div>';}
+ return h;}
+
+function v2(){
+ var h='<h2 id="h" tabindex="-1">🎭 Misión 2 — El detective de emociones</h2><p class="lead">Entre lo que pasa y lo que hacemos hay pasos que podemos descubrir.</p><div class="flow" aria-label="Situación, pensamiento, emoción, acción"><span>📍 SITUACIÓN</span><em>↓</em><span>💭 PENSAMIENTO</span><em>↓</em><span>💗 EMOCIÓN</span><em>↓</em><span>🎬 ACCIÓN</span></div>';
+ h+='<div class="panel"><h3>📍 Situación: «Un amigo no quiere jugar contigo.»</h3><p class="hint">Si piensas esto, ¿cómo podrías sentirte? Elige una opción para cada pensamiento.</p>';
+ [['a','A','«No le caigo bien.»'],['b','B','«Quizás hoy quiere hacer otra cosa.»']].forEach(function(p){
+  h+='<h4>💭 Pensamiento '+p[1]+': '+p[2]+'</h4><div class="chipbtn" role="group" aria-label="Cómo me sentiría con el pensamiento '+p[1]+'">';
+  FEEL.forEach(function(f){h+=pr(S.t[p[0]]===f,'t'+p[0],f,f);});
+  h+='</div><br>';});
+ if(S.t.a&&S.t.b){h+='<div class="ok pop">🔎 Una misma situación puede provocar emociones diferentes dependiendo de cómo la interpretamos. Eso no significa que los pensamientos lo controlen todo: a veces la emoción llega primero y el pensamiento después. Pero detenerte a preguntar «¿hay otra explicación?» puede ayudarte.</div>';}
+ return h+'</div>';}
+
+function v3(){var m=S.m3,s=m.stage,h='';
+ h+='<h2 id="h" tabindex="-1">🚦 Misión 3 — El semáforo emocional</h2>';
+ h+='<div class="tl"><div class="light" aria-hidden="true"><i class="r'+(s===0?' on':'')+'">PARO</i><i class="y'+(s===1?' on':'')+'">REGULO</i><i class="g'+(s===2?' on':'')+'">ELIJO</i></div><div>';
+ if(s===0){h+='<h3>🔴 ROJO — PARO</h3><p>Cuando la emoción está muy fuerte, no actúo inmediatamente.</p><ul class="stop"><li>🚫 NO GRITAR</li><li>🚫 NO PEGAR</li><li>🚫 NO INSULTAR</li><li>🚫 NO TOMAR DECISIONES IMPORTANTES</li></ul><p class="hint">Sentir enojo no significa que debamos agredir. Puedes sentirlo y aun así elegir qué hacer.</p><button class="btn" data-a="stage" data-v="1">Entendido, sigo al amarillo 🟡</button>';}
+ if(s===1){h+='<h3>🟡 AMARILLO — ME REGULO</h3><p>Vamos a calmar el cuerpo primero. Haremos 3 ciclos de respiración.</p>';
+  h+='<div class="bwrap"><div class="bcircle" id="bc" aria-hidden="true"></div><div class="bt" aria-live="polite"><b id="bt">'+(m.cycles>=3?'¡Muy bien!':'Listo')+'</b><span id="bn"></span><small id="bcy">'+(m.cycles>=3?'3 ciclos completados':'')+'</small></div></div>';
+  h+='<p class="hint">INSPIRA (4 s) → PAUSA (4 s) → SUELTA (4 s)</p>';
+  if(m.cycles<3){h+='<button class="btn" id="bbtn" data-a="breath">🌬️ EMPEZAR RESPIRACIÓN</button>';}
+  else{h+='<button class="btn alt" data-a="rep">🔁 Repetir respiración</button>';}}
+ if(s===2){h+='<h3>🟢 VERDE — ELIJO</h3><p>Ahora que estoy más tranquilo, puedo elegir qué hacer.</p>';}
+ h+='</div></div>';
+ if(s===1&&m.cycles>=3){h+='<div class="panel pop"><h3>¿Qué tan fuerte está tu emoción ahora?</h3><p class="hint">0 = nada fuerte, 10 = muy fuerte.</p><div class="scale" role="group" aria-label="Intensidad de la emoción de 0 a 10">';
+  for(var i=0;i<=10;i++){h+=pr(m.level===i,'lvl',i,i);}
+  h+='</div>';
+  if(m.level!==null){h+='<div class="ok pop">'+(m.level<=5?'Muy bien: notaste cómo cambia lo que sientes. Respirar ayuda a bajar la intensidad.':'Todavía está fuerte, y es normal. Puedes repetir la respiración o pedir ayuda a un adulto.')+'</div><p><br><button class="btn" data-a="stage" data-v="2">Pasar al verde 🟢</button></p>';}
+  h+='</div>';}
+ if(s===2){h+='<div class="grid g2">';
+  GREEN.forEach(function(g){h+=pr(m.choice===g[1],'pick',g[1],'<span class="big" aria-hidden="true">'+g[0]+'</span>'+g[1].toUpperCase());});
+  h+='</div>';
+  GREEN.forEach(function(g){if(m.choice===g[1]){h+='<div class="ok pop">'+g[0]+' '+g[2]+'</div>';}});}
+ return h;}
+
+function v4(){var i=S.sit.i,h='<h2 id="h" tabindex="-1">🎮 Misión 4 — ¿Qué harías tú?</h2>';
+ if(i>=3){var n=0;SIT.forEach(function(s,k){if(S.sit.ans[k]===s.g){n++;}});
+  return h+'<div class="panel pop center"><div class="big2" aria-hidden="true">🏆</div><h3>RESULTADO DE LA MISIÓN</h3><p>Identificaste una buena estrategia en <b>'+n+' de 3</b> situaciones al primer intento.</p><p>Cada respuesta te ayudó a conocer mejor tus reacciones. Reconocer una reacción impulsiva es el primer paso para elegir otra.</p></div>';}
+ var s=SIT[i],a=S.sit.ans[i],done=a!==undefined&&a!==null;
+ h+='<p class="hint">Situación '+(i+1)+' de 3</p><div class="panel"><h3>«'+s.q+'»</h3><p>¿Qué harías primero?</p>';
+ s.o.forEach(function(t,k){h+='<button class="card left opt'+(done&&k===s.g?' good':'')+(done&&a===k?' on':'')+'" data-a="sit" data-v="'+k+'"'+(done?' disabled':'')+'><b>'+'ABCD'[k]+'.</b> '+t+'</button>';});
+ if(done){h+='<div class="ok pop">'+(a===s.g?s.ok:BAD+' Una buena opción era: «'+s.o[s.g]+'»')+'</div><p><br><button class="btn" data-a="sitn">'+(i<2?'Siguiente situación':'Ver resultado')+'</button></p>';}
+ return h+'</div>';}
+
+function v5(){var h='<h2 id="h" tabindex="-1">💪 Misión 5 — Descubre tu superpoder</h2><p class="lead">Todos tenemos fortalezas que pueden ayudarnos cuando enfrentamos problemas. Elige 3 que sientas tuyas.</p><div class="grid g3">';
+ Object.keys(STR).forEach(function(k){h+=pr(S.str.indexOf(k)>=0,'str',k,'<span class="big" aria-hidden="true">⭐</span>'+k);});
+ h+='</div><p class="hint">Elegidas: '+S.str.length+' de 3</p>';
+ if(S.str.length===3){h+='<div class="panel pop"><h3>✨ Estas son tus fortalezas: '+S.str.join(', ')+'</h3><p class="hint">Las fortalezas te ayudan a manejar emociones difíciles, no a esconderlas. Elige una idea para cada una.</p>';
+  S.str.forEach(function(k){h+='<h4>⭐ ¿Cómo podrías usar '+k+' cuando tengas una emoción difícil?</h4><div class="grid g2">';
+   STR[k].forEach(function(t,j){h+=pr(S.ideas[k]===j,'idea',k+'|'+j,t,'left');});
+   h+='</div>';});
+  h+='</div>';}
+ return h;}
+
+function kitView(){var h='<div class="kitcard"><h3>🧰 MI KIT EMOCIONAL</h3><p>Cuando una emoción sea muy fuerte:</p><ol><li><b>PARO</b></li><li><b>RESPIRO</b></li><li><b>PIENSO</b></li><li><b>ELIJO</b></li></ol><p><b>Mis herramientas:</b></p>';
+ S.kit.forEach(function(k){var t=TOOLS.filter(function(x){return x[1]===k;})[0];h+='<div class="tools">'+t[0]+' '+t[1]+' <span style="font-weight:600">— '+t[2]+'</span></div>';});
+ if(!S.kit.length){h+='<p class="hint">Aún no has elegido herramientas.</p>';}
+ h+='</div>';
+ if(S.str.length){h+='<p><b>⭐ Mis fortalezas:</b> '+S.str.join(', ')+'</p>';}
+ return '<div class="center"><button class="btn alt" data-a="close">Cerrar</button></div>'+h;}
+
+function v6(){var h='<h2 id="h" tabindex="-1">🧰 Mi kit de emergencia emocional</h2><p class="lead">Elige 3 herramientas que te gustaría usar cuando una emoción sea muy fuerte.</p><div class="grid g3">';
+ TOOLS.forEach(function(t){h+=pr(S.kit.indexOf(t[1])>=0,'kit',t[1],'<span class="big" aria-hidden="true">'+t[0]+'</span>'+t[1]+'<br><small>'+t[2]+'</small>');});
+ h+='</div><p class="hint">Elegidas: '+S.kit.length+' de 3</p>';
+ if(S.kit.length===3){h+='<div class="pop">'+kitView().replace(/<div class="center">.*?<\/div>/,'')+'</div>';}
+ return h;}
+
+function v7(){var c='<div class="conf" aria-hidden="true">';
+ for(var i=0;i<28;i++){c+='<span style="left:'+Math.round(Math.random()*100)+'%;animation-duration:'+(3+Math.random()*3).toFixed(1)+'s;animation-delay:'+(Math.random()*1.5).toFixed(1)+'s">'+['🎉','⭐','✨','🎊','🌟'][i%5]+'</span>';}
+ c+='</div>';
+ return c+'<section class="center pop"><div class="big2" aria-hidden="true">🏆</div><h2 id="h" tabindex="-1">🏆 ¡MISIÓN COMPLETADA!</h2><p class="sub">Las emociones no son tus enemigas. Son mensajes.</p><p>No puedes elegir todas las emociones que aparecen, pero puedes aprender a elegir qué haces con ellas.</p><div class="steps"><span>🧠 PARAR</span><span>↓</span><span>🌬️ CALMAR</span><span>↓</span><span>💭 PENSAR</span><span>↓</span><span>🎯 ELEGIR</span></div><div class="nav" style="justify-content:center"><button class="btn" data-a="restart">🔄 VOLVER A JUGAR</button><button class="btn alt" data-a="tools">📋 VER MIS HERRAMIENTAS</button></div></section>';}
+
+function adultsView(){return '<div class="center"><button class="btn alt" data-a="close">Cerrar</button></div><h2>👩‍⚕️ Para adultos</h2><p>Este taller de unos 30 minutos acompaña a niños de 9 a 11 años en el reconocimiento y la regulación de emociones. Funciona mejor con un adulto cerca que converse sobre las respuestas, sin calificarlas.</p><h3>Base teórica</h3><p><b>Martin Seligman — Psicología Positiva y modelo PERMA.</b> Propone que el bienestar incluye emociones positivas, compromiso, relaciones, sentido y logro. De este enfoque se toma el trabajo con fortalezas personales (Misión 5).</p><p><b>Barbara Fredrickson — Teoría Broaden-and-Build.</b> Sostiene que las emociones positivas amplían el repertorio de pensamiento y acción, y ayudan a construir recursos personales con el tiempo. No sustituyen ni niegan las emociones difíciles.</p><p><b>James Gross — Modelo de regulación emocional.</b> Describe cómo podemos influir en una emoción en distintos momentos: seleccionar o modificar la situación, dirigir la atención, reinterpretarla y modular la respuesta. Aquí se refleja en la pausa del semáforo (Misión 3), la reinterpretación (Misión 2) y la elección de acciones (Misión 4).</p><p><i>Aclaración:</i> Seligman y Fredrickson no desarrollaron conjuntamente una teoría específica de regulación emocional. Sus aportes se integran en este taller junto con el modelo de regulación emocional de Gross.</p><h3>Ideas clave del taller</h3><ul><li>Todas las emociones cumplen funciones; no hay emociones «malas».</li><li>Sentir enojo no implica agredir, ni sentir miedo ser débil.</li><li>Regular no es eliminar la emoción.</li><li>Primero se regula el cuerpo y luego se piensa.</li><li>Pedir ayuda es una estrategia saludable.</li><li>Las emociones positivas no se usan para negar las difíciles.</li></ul><h3>Alcance y privacidad</h3><p>Es una herramienta educativa, no un diagnóstico ni un tratamiento. Si el niño muestra malestar intenso o persistente, conviene consultar a un profesional. No se piden datos personales ni se envía información a ningún servidor; el progreso se guarda solo en este navegador (localStorage) y se borra al pulsar «Volver a jugar».</p>';}
+
+/* ===== RENDER ===== */
+function stopBreath(){if(br){clearInterval(br);br=null;}}
+function render(keep){
+ stopBreath();
+ var a=document.activeElement,key=(keep&&a&&a.dataset&&a.dataset.a)?[a.dataset.a,a.dataset.v]:null;
+ var V=[vCover,v1,v2,v3,v4,v5,v6,v7],h=V[S.step]();
+ if(S.step>=1&&S.step<=6){
+  h+='<div class="nav"><button class="btn alt" data-a="back">← Atrás</button>'+(ok()?'':'<p class="hint">'+HINT[S.step]+'</p>')+'<button class="btn" data-a="next"'+(ok()?'':' disabled')+'>'+(S.step===6?'Terminar misión ✔':'Continuar →')+'</button></div>';}
+ $('app').innerHTML=h;
+ document.body.className=S.step===0?'cover':'';
+ var pct=Math.round(S.step/7*100);
+ $('pfill').style.width=pct+'%';$('pbar').setAttribute('aria-valuenow',pct);
+ $('plabel').textContent=S.step<=5?'Misión '+Math.max(S.step,1)+' de 5':(S.step===6?'Kit de emergencia':'¡Completado!');
+ var n=null;
+ if(key){n=[].slice.call(document.querySelectorAll('[data-a]')).filter(function(x){return x.dataset.a===key[0]&&x.dataset.v===key[1]&&!x.disabled;})[0];}
+ if(n){n.focus({preventScroll:true});}
+ else{var t=$('h');if(t){t.focus({preventScroll:true});}window.scrollTo(0,0);}
+}
+
+/* ===== RESPIRACIÓN (3 ciclos de 12 s) ===== */
+function startBreath(){
+ stopBreath();var t=0,P=[['INSPIRA',1.45],['PAUSA',1.45],['SUELTA',1]];
+ var b=$('bbtn');if(b){b.disabled=true;}
+ function step(){
+  if(t>=36){stopBreath();S.m3.cycles=3;save();render(false);return;}
+  var p=Math.floor(t/4)%3;
+  $('bt').textContent=P[p][0];$('bn').textContent=4-(t%4);$('bcy').textContent='Ciclo '+(Math.floor(t/12)+1)+' de 3';
+  if(t%4===0){$('bc').style.transform='scale('+P[p][1]+')';}
+  t++;}
+ step();br=setInterval(step,1000);
+}
+
+/* ===== ACCIONES ===== */
+function openDlg(html){var d=$('dlg');d.innerHTML=html;if(d.showModal){d.showModal();}else{d.setAttribute('open','');}}
+function act(a,v){
+ var keep=true;
+ switch(a){
+  case 'start':S.step=1;keep=false;break;
+  case 'next':if(!ok()){return;}S.step++;keep=false;break;
+  case 'back':S.step=Math.max(0,S.step-1);keep=false;break;
+  case 'emo':S.emo=v;break;
+  case 'body':var l=S.body[S.emo]=S.body[S.emo]||[],i=l.indexOf(v);if(i<0){l.push(v);}else{l.splice(i,1);}break;
+  case 'ta':S.t.a=v;break;
+  case 'tb':S.t.b=v;break;
+  case 'stage':S.m3.stage=+v;keep=false;break;
+  case 'breath':startBreath();return;
+  case 'rep':S.m3.cycles=0;S.m3.level=null;keep=false;break;
+  case 'lvl':S.m3.level=+v;break;
+  case 'pick':S.m3.choice=v;break;
+  case 'sit':if(S.sit.ans[S.sit.i]!=null){return;}S.sit.ans[S.sit.i]=+v;break;
+  case 'sitn':S.sit.i++;keep=false;break;
+  case 'str':var j=S.str.indexOf(v);if(j>=0){S.str.splice(j,1);}else if(S.str.length<3){S.str.push(v);}break;
+  case 'idea':var q=v.split('|');S.ideas[q[0]]=+q[1];break;
+  case 'kit':var m=S.kit.indexOf(v);if(m>=0){S.kit.splice(m,1);}else if(S.kit.length<3){S.kit.push(v);}break;
+  case 'restart':S=fresh();keep=false;break;
+  case 'tools':openDlg(kitView());return;
+  case 'adults':openDlg(adultsView());return;
+  case 'close':$('dlg').close?$('dlg').close():$('dlg').removeAttribute('open');return;
+  default:return;
+ }
+ save();render(keep);
+}
+document.addEventListener('click',function(e){var b=e.target.closest('[data-a]');if(!b||b.disabled){return;}act(b.dataset.a,b.dataset.v);});
+render(false);
+</script>
+</body>
+</html>
